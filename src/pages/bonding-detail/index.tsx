@@ -4,7 +4,7 @@ import Taro, { useRouter } from '@tarojs/taro'
 import styles from './index.module.scss'
 import ToothChart from '@/components/ToothChart'
 import { BondingStatusTag } from '@/components/StatusTag'
-import { mockBondingTasks } from '@/data/mock'
+import { findBondingTask } from '@/services/store'
 import type { BondingTask } from '@/types'
 
 const BondingDetailPage: React.FC = () => {
@@ -13,7 +13,7 @@ const BondingDetailPage: React.FC = () => {
 
   useEffect(() => {
     const { id } = router.params
-    const found = mockBondingTasks.find(t => t.id === id)
+    const found = findBondingTask(id)
     if (found) {
       setTask(found)
     } else {

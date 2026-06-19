@@ -1,18 +1,18 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { View, Text, Input, ScrollView, Image } from '@tarojs/components'
-import Taro from '@tarojs/taro'
+import Taro, { useDidShow } from '@tarojs/taro'
 import styles from './index.module.scss'
 import ToothChart from '@/components/ToothChart'
 import { BondingStatusTag } from '@/components/StatusTag'
 import classnames from 'classnames'
 import { 
   mockPatients, 
-  mockBondingTasks, 
   defaultMaterialChecks,
   defaultPrecautions,
   defaultDiscomforts
 } from '@/data/mock'
 import { generateId, formatDate, formatTime } from '@/utils'
+import { getBondingTasks, addBondingTask } from '@/services/store'
 import type { 
   Patient, BondingTask, ToothAttachment, MaterialCheckItem,
   AttachmentType, AttachmentDirection
@@ -31,14 +31,13 @@ const ATTACHMENT_DIRECTIONS: AttachmentDirection[] = [
 
 const BondingPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('list')
-  const [tasks, setTasks] = useState<BondingTask[]>(mockBondingTasks)
+  const [tasks, setTasks] = useState<BondingTask[]>([])
   const [showPatientModal, setShowPatientModal] = useState(false)
   const [showEditModal, setShowEditModal] = useState(false)
   const [showCardModal, setShowCardModal] = useState(false)
   const [completedTask, setCompletedTask] = useState<BondingTask | null>(null)
   const [patientSearch, setPatientSearch] = useState('')
 
-  // 表单状态
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null)
   const [attachments, setAttachments] = useState<ToothAttachment[]>([])
   const [selectedTeeth, setSelectedTeeth] = useState<string[]>([])
@@ -53,14 +52,16 @@ const BondingPage: React.FC = () => {
   const [photos, setPhotos] = useState<string[]>([])
   const [taskNotes, setTaskNotes] = useState('')
 
-  useEffect(() => {
+  useDidShow(() => {
+    setTasks(getBondingTasks())
+
     const patient: Patient | null = Taro.getStorageSync('currentPatient')
     if (patient) {
       setSelectedPatient(patient)
       setActiveTab('create')
       Taro.removeStorageSync('currentPatient')
     }
-  }, [])
+  })
 
   const filteredPatients = useMemo(() => {
     if (!patientSearch.trim()) return mockPatients
@@ -94,11 +95,6 @@ const BondingPage: React.FC = () => {
       setEditNotes(att.notes || '')
       setShowEditModal(true)
     } else {
-      setSelectedTeeth(prev => 
-        prev.includes(toothNumber) 
-          ? prev.filter(t => t !== toothNumber)
-          : [...prev, toothNumber]
-      )
       setEditingTooth(toothNumber)
       setEditType('传统附件')
       setEditDirection('颊侧')
@@ -218,7 +214,8 @@ const BondingPage: React.FC = () => {
       completedAt: status === 'completed' ? now.toLocaleString() : undefined
     }
 
-    setTasks(prev => [task, ...prev])
+    addBondingTask(task)
+    setTasks(getBondingTasks())
     
     if (status === 'completed') {
       setCompletedTask(task)
@@ -558,7 +555,6 @@ const BondingPage: React.FC = () => {
         </View>
       )}
 
-      {/* 患者选择弹窗 */}
       {showPatientModal && (
         <View className={styles.modalMask} onClick={() => setShowPatientModal(false)}>
           <View className={styles.modal} onClick={e => e.stopPropagation()}>
@@ -599,7 +595,6 @@ const BondingPage: React.FC = () => {
         </View>
       )}
 
-      {/* 附件编辑弹窗 */}
       {showEditModal && editingTooth && (
         <View className={styles.editModalMask} onClick={() => setShowEditModal(false)}>
           <View className={styles.editModal} onClick={e => e.stopPropagation()}>
@@ -700,7 +695,6 @@ const BondingPage: React.FC = () => {
         </View>
       )}
 
-      {/* 患者沟通卡弹窗 */}
       {showCardModal && completedTask && (
         <View className={styles.modalMask} onClick={() => setShowCardModal(false)}>
           <View className={styles.modal} onClick={e => e.stopPropagation()} style={{ maxHeight: '90vh' }}>

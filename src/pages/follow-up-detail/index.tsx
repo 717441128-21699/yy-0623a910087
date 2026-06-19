@@ -4,8 +4,8 @@ import Taro, { useRouter } from '@tarojs/taro'
 import styles from './index.module.scss'
 import ToothChart from '@/components/ToothChart'
 import { ToothStatusTag } from '@/components/StatusTag'
+import { findFollowUpRecord } from '@/services/store'
 import classnames from 'classnames'
-import { mockFollowUpRecords } from '@/data/mock'
 import { getToothRegion } from '@/utils'
 import type { FollowUpRecord, ToothStatus } from '@/types'
 
@@ -15,7 +15,7 @@ const FollowUpDetailPage: React.FC = () => {
 
   useEffect(() => {
     const { id } = router.params
-    const found = mockFollowUpRecords.find(r => r.id === id)
+    const found = findFollowUpRecord(id)
     if (found) {
       setRecord(found)
     } else {

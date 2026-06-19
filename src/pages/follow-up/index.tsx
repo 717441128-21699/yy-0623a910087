@@ -7,12 +7,15 @@ import { ToothStatusTag } from '@/components/StatusTag'
 import classnames from 'classnames'
 import { 
   mockPatients, 
-  mockBondingTasks, 
-  mockFollowUpRecords,
   defaultPrecautions,
   defaultDiscomforts
 } from '@/data/mock'
 import { generateId, getToothRegion } from '@/utils'
+import { 
+  getFollowUpRecords, addFollowUpRecord, 
+  getPatientBondingHistory, getPatientFollowUpHistory,
+  hasPatientBondingHistory
+} from '@/services/store'
 import type { 
   Patient, FollowUpRecord, FollowUpTooth, 
   ToothStatus, ToothAttachment
@@ -35,7 +38,7 @@ const addDays = (days: number): string => {
 
 const FollowUpPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('list')
-  const [records, setRecords] = useState<FollowUpRecord[]>(mockFollowUpRecords)
+  const [records, setRecords] = useState<FollowUpRecord[]>([])
   const [showPatientModal, setShowPatientModal] = useState(false)
   const [showCardModal, setShowCardModal] = useState(false)
   const [showDateModal, setShowDateModal] = useState(false)
@@ -53,6 +56,8 @@ const FollowUpPage: React.FC = () => {
   const [nextVisitDate, setNextVisitDate] = useState(addDays(14))
 
   useDidShow(() => {
+    setRecords(getFollowUpRecords())
+
     const patient: Patient | null = Taro.getStorageSync('currentPatient')
     if (patient) {
       loadPatientHistory(patient)
@@ -63,10 +68,8 @@ const FollowUpPage: React.FC = () => {
 
   const loadPatientHistory = (patient: Patient) => {
     setSelectedPatient(patient)
-    const bondingHistory = mockBondingTasks.filter(
-      t => t.patientId === patient.id && t.status === 'completed'
-    )
-    const followupHistory = mockFollowUpRecords.filter(r => r.patientId === patient.id)
+    const bondingHistory = getPatientBondingHistory(patient.id)
+    const followupHistory = getPatientFollowUpHistory(patient.id)
     
     const attachMap: Record<string, ToothAttachment> = {}
     
@@ -176,7 +179,8 @@ const FollowUpPage: React.FC = () => {
       createdAt: now.toLocaleString()
     }
 
-    setRecords(prev => [record, ...prev])
+    addFollowUpRecord(record)
+    setRecords(getFollowUpRecords())
     setCompletedRecord(record)
     setShowCardModal(true)
     
@@ -506,9 +510,7 @@ const FollowUpPage: React.FC = () => {
             </View>
             <ScrollView scrollY className={styles.modalBody}>
               {filteredPatients.map(patient => {
-                const hasHistory = mockBondingTasks.some(
-                  t => t.patientId === patient.id && t.status === 'completed'
-                )
+                const hasHistory = hasPatientBondingHistory(patient.id)
                 return (
                   <View 
                     key={patient.id}

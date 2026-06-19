@@ -14,7 +14,6 @@ export interface ToothChartProps {
   mode?: 'select' | 'status'
   showLegend?: boolean
   onToothClick?: (toothNumber: string) => void
-  showMidline?: boolean
 }
 
 const ToothChart: React.FC<ToothChartProps> = ({
@@ -25,8 +24,7 @@ const ToothChart: React.FC<ToothChartProps> = ({
   toothCountMap = {},
   mode = 'select',
   showLegend = true,
-  onToothClick,
-  showMidline = true
+  onToothClick
 }) => {
   const selectedCount = useMemo(() => {
     if (mode === 'select') {
@@ -56,31 +54,20 @@ const ToothChart: React.FC<ToothChartProps> = ({
     }
   }
 
-  const renderToothRow = (teeth: string[]) => {
-    const midIndex = Math.floor(teeth.length / 2)
-    return (
-      <View className={styles.toothRow}>
-        {teeth.map((tooth, index) => (
-          <React.Fragment key={tooth}>
-            {showMidline && index === midIndex && (
-              <View className={styles.midline}></View>
-            )}
-            <View
-              className={getToothClass(tooth)}
-              onClick={() => handleToothClick(tooth)}
-            >
-              {tooth.slice(1)}
-              {toothCountMap[tooth] > 0 && (
-                <View className={styles.toothBadge}>
-                  {toothCountMap[tooth]}
-                </View>
-              )}
-            </View>
-          </React.Fragment>
-        ))}
-      </View>
-    )
-  }
+  const renderTooth = (tooth: string) => (
+    <View
+      key={tooth}
+      className={getToothClass(tooth)}
+      onClick={() => handleToothClick(tooth)}
+    >
+      {tooth.slice(1)}
+      {toothCountMap[tooth] > 0 && (
+        <View className={styles.toothBadge}>
+          {toothCountMap[tooth]}
+        </View>
+      )}
+    </View>
+  )
 
   return (
     <View className={styles.container}>
@@ -90,11 +77,19 @@ const ToothChart: React.FC<ToothChartProps> = ({
       <View className={styles.chartWrapper}>
         <View className={styles.arch}>
           <Text className={styles.archLabel}>上颌</Text>
-          {renderToothRow(permanentTeeth.upperRight.slice().reverse())}
+          <View className={styles.toothRow}>
+            {permanentTeeth.upperRight.slice().reverse().map(renderTooth)}
+            <View className={styles.midline}></View>
+            {permanentTeeth.upperLeft.map(renderTooth)}
+          </View>
         </View>
 
         <View className={styles.arch}>
-          {renderToothRow(permanentTeeth.lowerRight)}
+          <View className={styles.toothRow}>
+            {permanentTeeth.lowerLeft.map(renderTooth)}
+            <View className={styles.midline}></View>
+            {permanentTeeth.lowerRight.slice().reverse().map(renderTooth)}
+          </View>
           <Text className={styles.archLabel}>下颌</Text>
         </View>
       </View>
@@ -123,7 +118,7 @@ const ToothChart: React.FC<ToothChartProps> = ({
       {mode === 'select' && selectedCount > 0 && (
         <View className={styles.selectedInfo}>
           <Text className={styles.selectedInfoText}>
-            已选择 <strong>{selectedCount}</strong> 颗牙
+            已选择 <Text style={{ color: '#1677ff', fontWeight: 500 }}>{selectedCount}</Text> 颗牙
           </Text>
         </View>
       )}
