@@ -1,0 +1,680 @@
+@use '@/styles/variables.scss' as *;
+
+.page {
+  min-height: 100vh;
+  padding-bottom: calc(140rpx + env(safe-area-inset-bottom));
+}
+
+.tabs {
+  display: flex;
+  background: $color-bg-card;
+  padding: $spacing-xs $page-padding;
+  border-bottom: 1rpx solid $color-divider;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.tabItem {
+  flex: 1;
+  text-align: center;
+  padding: $spacing-md 0;
+  font-size: $font-size-md;
+  color: $color-text-secondary;
+  position: relative;
+  transition: all $transition-fast;
+}
+
+.tabActive {
+  color: $color-primary;
+  font-weight: $font-weight-semibold;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 48rpx;
+    height: 6rpx;
+    background: $color-primary;
+    border-radius: 3rpx;
+  }
+}
+
+.content {
+  padding: $spacing-lg $page-padding;
+}
+
+// ===== 记录列表 =====
+.recordCard {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  margin-bottom: $spacing-md;
+  box-shadow: $shadow-card;
+
+  &:active {
+    box-shadow: $shadow-card-hover;
+  }
+}
+
+.recordHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: $spacing-md;
+}
+
+.recordPatient {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: 4rpx;
+}
+
+.recordCase {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.recordMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm $spacing-lg;
+  padding-top: $spacing-md;
+  border-top: 1rpx solid $color-divider;
+}
+
+.recordMetaItem {
+  display: flex;
+  align-items: center;
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  gap: 8rpx;
+}
+
+.recordSummary {
+  display: flex;
+  gap: $spacing-sm;
+  margin-top: $spacing-md;
+  flex-wrap: wrap;
+}
+
+.recordSummaryTag {
+  padding: 6rpx 16rpx;
+  border-radius: $radius-xs;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+}
+
+.summaryIntact { background: $color-success-bg; color: $status-intact; }
+.summaryWorn { background: $color-warning-bg; color: $status-worn; }
+.summaryFallen { background: $color-error-bg; color: $status-fallen; }
+.summaryRebond { background: $color-primary-bg; color: $color-primary; }
+
+.recordOpinion {
+  margin-top: $spacing-md;
+  padding: $spacing-md;
+  background: $color-bg-hover;
+  border-radius: $radius-md;
+}
+
+.recordOpinionText {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  line-height: 1.6;
+}
+
+// ===== 表单卡片 =====
+.formCard {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  margin-bottom: $spacing-md;
+  box-shadow: $shadow-card;
+}
+
+.formTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-md;
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.formTitleIcon {
+  width: 8rpx;
+  height: 32rpx;
+  background: $color-primary;
+  border-radius: 4rpx;
+}
+
+.selectPatient {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-md;
+  background: $color-bg-hover;
+  border-radius: $radius-md;
+  margin-bottom: $spacing-md;
+}
+
+.selectPatientInfo {
+  flex: 1;
+}
+
+.selectPatientName {
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  margin-bottom: 4rpx;
+}
+
+.selectPatientMeta {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.selectArrow {
+  color: $color-text-tertiary;
+  font-size: $font-size-lg;
+}
+
+.prevAttachmentsHint {
+  padding: $spacing-md;
+  background: $color-primary-bg;
+  border-radius: $radius-md;
+  margin-top: $spacing-md;
+}
+
+.prevAttachmentsHintText {
+  font-size: $font-size-sm;
+  color: $color-primary;
+  line-height: 1.6;
+
+  strong {
+    font-weight: $font-weight-semibold;
+  }
+}
+
+// ===== 牙位列表 =====
+.toothList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  margin-top: $spacing-md;
+}
+
+.toothListItem {
+  display: flex;
+  align-items: center;
+  padding: $spacing-md;
+  background: $color-bg-hover;
+  border-radius: $radius-md;
+  gap: $spacing-md;
+}
+
+.toothNum {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: $radius-md;
+  background: $color-bg-card;
+  color: $color-text-primary;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  flex-shrink: 0;
+  border: 2rpx solid $color-border;
+}
+
+.toothInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.toothPrevType {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  margin-bottom: 4rpx;
+}
+
+.toothPrevNotes {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.toothStatusSelector {
+  display: flex;
+  gap: 8rpx;
+}
+
+.statusBtn {
+  padding: 8rpx 12rpx;
+  border-radius: $radius-xs;
+  font-size: 20rpx;
+  border: 2rpx solid transparent;
+  white-space: nowrap;
+}
+
+.statusBtnActive {
+  font-weight: $font-weight-semibold;
+}
+
+.statusIntact {
+  background: $color-bg-card;
+  color: $color-text-tertiary;
+  border-color: $color-border;
+  &.active { background: $color-success-bg; color: $status-intact; border-color: $status-intact; }
+}
+.statusWorn {
+  background: $color-bg-card;
+  color: $color-text-tertiary;
+  border-color: $color-border;
+  &.active { background: $color-warning-bg; color: $status-worn; border-color: $status-worn; }
+}
+.statusFallen {
+  background: $color-bg-card;
+  color: $color-text-tertiary;
+  border-color: $color-border;
+  &.active { background: $color-error-bg; color: $status-fallen; border-color: $status-fallen; }
+}
+.statusRebond {
+  background: $color-bg-card;
+  color: $color-text-tertiary;
+  border-color: $color-border;
+  &.active { background: $color-primary-bg; color: $color-primary; border-color: $color-primary; }
+}
+
+.notesInput {
+  width: 100%;
+  min-height: 160rpx;
+  padding: $spacing-md;
+  background: $color-bg-hover;
+  border-radius: $radius-md;
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  box-sizing: border-box;
+  margin-top: $spacing-sm;
+}
+
+.dateRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-md;
+  background: $color-bg-hover;
+  border-radius: $radius-md;
+}
+
+.dateLabel {
+  font-size: $font-size-md;
+  color: $color-text-secondary;
+}
+
+.dateValue {
+  font-size: $font-size-md;
+  color: $color-primary;
+  font-weight: $font-weight-medium;
+}
+
+.quickDates {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+  margin-top: $spacing-sm;
+}
+
+.quickDate {
+  padding: $spacing-xs $spacing-md;
+  background: $color-primary-bg;
+  color: $color-primary;
+  border-radius: $radius-button;
+  font-size: $font-size-xs;
+  white-space: nowrap;
+}
+
+// ===== 底部操作栏 =====
+.bottomBar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: $color-bg-card;
+  padding: $spacing-md $page-padding;
+  padding-bottom: calc($spacing-md + env(safe-area-inset-bottom));
+  box-shadow: 0 -4rpx 16rpx rgba(0,0,0,0.06);
+  display: flex;
+  gap: $spacing-md;
+  z-index: 100;
+}
+
+.bottomBtn {
+  @include button-reset;
+  flex: 1;
+  height: $button-height-lg;
+  border-radius: $radius-button;
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  white-space: nowrap;
+
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+}
+
+.btnPrimary {
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  color: $color-text-white;
+}
+
+.btnSecondary {
+  background: $color-primary-bg;
+  color: $color-primary;
+}
+
+.btnDefault {
+  background: $color-bg-hover;
+  color: $color-text-secondary;
+}
+
+.btnDisabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+// ===== 弹窗 =====
+.modalMask {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 2000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.modal {
+  width: 100%;
+  max-height: 80vh;
+  background: $color-bg-card;
+  border-radius: $radius-xl $radius-xl 0 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-lg;
+  border-bottom: 1rpx solid $color-divider;
+}
+
+.modalTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.modalClose {
+  font-size: 40rpx;
+  color: $color-text-tertiary;
+  padding: $spacing-xs;
+}
+
+.modalSearch {
+  padding: $spacing-md $spacing-lg;
+  border-bottom: 1rpx solid $color-divider;
+}
+
+.modalSearchInput {
+  width: 100%;
+  height: $button-height-md;
+  padding: 0 $spacing-lg;
+  background: $color-bg-hover;
+  border-radius: $radius-button;
+  font-size: $font-size-md;
+  box-sizing: border-box;
+}
+
+.modalBody {
+  flex: 1;
+  overflow-y: auto;
+  padding: $spacing-md $spacing-lg $spacing-lg;
+  max-height: 50vh;
+}
+
+.patientOption {
+  padding: $spacing-md;
+  border-radius: $radius-md;
+  margin-bottom: $spacing-sm;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &:active {
+    background: $color-bg-hover;
+  }
+}
+
+.patientOptionName {
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  margin-bottom: 4rpx;
+}
+
+.patientOptionMeta {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.patientOptionSelected {
+  color: $color-primary;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+}
+
+// ===== 空状态 =====
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 0;
+}
+
+.emptyIcon {
+  font-size: 120rpx;
+  margin-bottom: $spacing-lg;
+  opacity: 0.5;
+}
+
+.emptyText {
+  font-size: $font-size-md;
+  color: $color-text-tertiary;
+  margin-bottom: $spacing-md;
+}
+
+.emptyBtn {
+  @include button-reset;
+  padding: 0 $spacing-xl;
+  height: $button-height-md;
+  border-radius: $radius-button;
+  background: $color-primary;
+  color: $color-text-white;
+  font-size: $font-size-md;
+}
+
+// ===== 患者沟通卡 =====
+.communicationCard {
+  background: linear-gradient(180deg, #e6f4ff 0%, #ffffff 100%);
+  border-radius: $radius-xl;
+  padding: $spacing-xl;
+  margin: $spacing-lg 0;
+  border: 2rpx solid $color-primary;
+}
+
+.cardHeader {
+  text-align: center;
+  margin-bottom: $spacing-lg;
+  padding-bottom: $spacing-lg;
+  border-bottom: 2rpx dashed $color-border;
+}
+
+.cardHeaderTitle {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-primary;
+}
+
+.cardHeaderSub {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  margin-top: $spacing-xs;
+}
+
+.cardSection {
+  margin-bottom: $spacing-lg;
+}
+
+.cardSectionTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-sm;
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+}
+
+.cardSectionTitleIcon {
+  font-size: $font-size-lg;
+}
+
+.summaryStats {
+  display: flex;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-md;
+}
+
+.statItem {
+  flex: 1;
+  text-align: center;
+  padding: $spacing-md;
+  border-radius: $radius-md;
+}
+
+.statIntact { background: $color-success-bg; }
+.statWorn { background: $color-warning-bg; }
+.statFallen { background: $color-error-bg; }
+.statRebond { background: $color-primary-bg; }
+
+.statNum {
+  font-size: 36rpx;
+  font-weight: $font-weight-bold;
+  display: block;
+}
+
+.statNumIntact { color: $status-intact; }
+.statNumWorn { color: $status-worn; }
+.statNumFallen { color: $status-fallen; }
+.statNumRebond { color: $color-primary; }
+
+.statLabel {
+  font-size: $font-size-xs;
+  color: $color-text-secondary;
+  margin-top: 4rpx;
+  display: block;
+}
+
+.teethList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.teethListItem {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-sm $spacing-md;
+  background: $color-bg-card;
+  border-radius: $radius-md;
+}
+
+.teethListNum {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: $radius-xs;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.teethListInfo {
+  flex: 1;
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.cardList {
+  padding-left: $spacing-md;
+}
+
+.cardListItem {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  line-height: 2;
+  position: relative;
+  padding-left: $spacing-md;
+
+  &::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: $color-primary;
+  }
+}
+
+.cardFooter {
+  margin-top: $spacing-xl;
+  padding-top: $spacing-lg;
+  border-top: 2rpx dashed $color-border;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cardFooterText {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.cardFooterDate {
+  font-size: $font-size-sm;
+  color: $color-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.cardOpinion {
+  padding: $spacing-md;
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  border-left: 6rpx solid $color-primary;
+}
+
+.cardOpinionText {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  line-height: 1.7;
+}

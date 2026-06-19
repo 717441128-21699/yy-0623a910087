@@ -1,0 +1,807 @@
+@use '@/styles/variables.scss' as *;
+
+.page {
+  min-height: 100vh;
+  padding-bottom: calc(140rpx + env(safe-area-inset-bottom));
+}
+
+.tabs {
+  display: flex;
+  background: $color-bg-card;
+  padding: $spacing-xs $page-padding;
+  border-bottom: 1rpx solid $color-divider;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.tabItem {
+  flex: 1;
+  text-align: center;
+  padding: $spacing-md 0;
+  font-size: $font-size-md;
+  color: $color-text-secondary;
+  position: relative;
+  transition: all $transition-fast;
+}
+
+.tabActive {
+  color: $color-primary;
+  font-weight: $font-weight-semibold;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 48rpx;
+    height: 6rpx;
+    background: $color-primary;
+    border-radius: 3rpx;
+  }
+}
+
+.content {
+  padding: $spacing-lg $page-padding;
+}
+
+// ===== 创建任务表单 =====
+.formCard {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  margin-bottom: $spacing-md;
+  box-shadow: $shadow-card;
+}
+
+.formTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-md;
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.formTitleIcon {
+  width: 8rpx;
+  height: 32rpx;
+  background: $color-primary;
+  border-radius: 4rpx;
+}
+
+.selectPatient {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-md;
+  background: $color-bg-hover;
+  border-radius: $radius-md;
+  margin-bottom: $spacing-md;
+}
+
+.selectPatientInfo {
+  flex: 1;
+}
+
+.selectPatientName {
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  margin-bottom: 4rpx;
+}
+
+.selectPatientMeta {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.selectArrow {
+  color: $color-text-tertiary;
+  font-size: $font-size-lg;
+}
+
+.attachmentList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  margin-top: $spacing-md;
+}
+
+.attachmentItem {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-md;
+  background: $color-bg-hover;
+  border-radius: $radius-md;
+}
+
+.attachmentTooth {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: $radius-md;
+  background: $color-primary;
+  color: $color-text-white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  flex-shrink: 0;
+}
+
+.attachmentInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.attachmentType {
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  margin-bottom: 4rpx;
+}
+
+.attachmentMeta {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.attachmentDelete {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: $radius-round;
+  background: $color-error-bg;
+  color: $color-error;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $font-size-lg;
+  flex-shrink: 0;
+}
+
+.formRow {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-md;
+}
+
+.formLabel {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  font-weight: $font-weight-medium;
+}
+
+.typeSelector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+}
+
+.typeOption {
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-button;
+  background: $color-bg-hover;
+  color: $color-text-secondary;
+  font-size: $font-size-sm;
+  border: 2rpx solid transparent;
+  transition: all $transition-fast;
+}
+
+.typeOptionActive {
+  background: $color-primary-bg;
+  color: $color-primary;
+  border-color: $color-primary;
+  font-weight: $font-weight-medium;
+}
+
+.quantityRow {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+}
+
+.quantityBtn {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: $radius-md;
+  background: $color-bg-hover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $font-size-xl;
+  color: $color-text-secondary;
+  font-weight: $font-weight-semibold;
+}
+
+.quantityValue {
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  min-width: 60rpx;
+  text-align: center;
+}
+
+.notesInput {
+  width: 100%;
+  min-height: 120rpx;
+  padding: $spacing-md;
+  background: $color-bg-hover;
+  border-radius: $radius-md;
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  box-sizing: border-box;
+}
+
+// ===== 材料核对 =====
+.materialSection {
+  margin-bottom: $spacing-md;
+}
+
+.materialSectionTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-sm;
+  padding-left: $spacing-sm;
+  border-left: 6rpx solid $color-primary;
+}
+
+.materialItem {
+  display: flex;
+  align-items: center;
+  padding: $spacing-md;
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  margin-bottom: $spacing-xs;
+  border: 2rpx solid $color-divider;
+  transition: all $transition-fast;
+}
+
+.materialItemChecked {
+  border-color: $color-success;
+  background: $color-success-bg;
+}
+
+.materialCheckbox {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: $radius-xs;
+  border: 3rpx solid $color-border;
+  margin-right: $spacing-md;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all $transition-fast;
+}
+
+.materialCheckboxChecked {
+  background: $color-success;
+  border-color: $color-success;
+  color: $color-text-white;
+  font-weight: $font-weight-bold;
+  font-size: $font-size-sm;
+}
+
+.materialName {
+  flex: 1;
+  font-size: $font-size-md;
+  color: $color-text-primary;
+}
+
+.materialCheckedBy {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  margin-right: $spacing-sm;
+}
+
+.materialCheckAll {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: $spacing-sm 0;
+  font-size: $font-size-sm;
+  color: $color-primary;
+  font-weight: $font-weight-medium;
+}
+
+// ===== 拍照确认 =====
+.photoSection {
+  margin-top: $spacing-md;
+}
+
+.photoGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+}
+
+.photoItem {
+  width: calc((100% - 32rpx) / 3);
+  aspect-ratio: 1;
+  border-radius: $radius-md;
+  overflow: hidden;
+  position: relative;
+}
+
+.photoImg {
+  width: 100%;
+  height: 100%;
+}
+
+.photoDelete {
+  position: absolute;
+  top: 4rpx;
+  right: 4rpx;
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: $radius-round;
+  background: rgba(0,0,0,0.6);
+  color: $color-text-white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $font-size-sm;
+}
+
+.photoAdd {
+  width: calc((100% - 32rpx) / 3);
+  aspect-ratio: 1;
+  border-radius: $radius-md;
+  border: 2rpx dashed $color-border;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-xs;
+  background: $color-bg-hover;
+}
+
+.photoAddIcon {
+  font-size: 48rpx;
+  color: $color-text-tertiary;
+}
+
+.photoAddText {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+// ===== 任务列表 =====
+.taskCard {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  margin-bottom: $spacing-md;
+  box-shadow: $shadow-card;
+  transition: all $transition-fast;
+
+  &:active {
+    box-shadow: $shadow-card-hover;
+  }
+}
+
+.taskHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: $spacing-md;
+}
+
+.taskPatient {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: 4rpx;
+}
+
+.taskCase {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.taskMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm $spacing-lg;
+  padding-top: $spacing-md;
+  border-top: 1rpx solid $color-divider;
+}
+
+.taskMetaItem {
+  display: flex;
+  align-items: center;
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  gap: 8rpx;
+}
+
+.taskAttachments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-xs;
+  margin-top: $spacing-md;
+}
+
+.taskAttachTag {
+  padding: 4rpx 12rpx;
+  background: $color-primary-bg;
+  color: $color-primary;
+  font-size: $font-size-xs;
+  border-radius: $radius-xs;
+}
+
+.taskProgress {
+  margin-top: $spacing-md;
+  height: 12rpx;
+  background: $color-bg-hover;
+  border-radius: $radius-round;
+  overflow: hidden;
+}
+
+.taskProgressBar {
+  height: 100%;
+  background: linear-gradient(90deg, $color-primary 0%, $color-primary-light 100%);
+  border-radius: $radius-round;
+  transition: width $transition-base;
+}
+
+.taskProgressText {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8rpx;
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+// ===== 底部操作栏 =====
+.bottomBar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: $color-bg-card;
+  padding: $spacing-md $page-padding;
+  padding-bottom: calc($spacing-md + env(safe-area-inset-bottom));
+  box-shadow: 0 -4rpx 16rpx rgba(0,0,0,0.06);
+  display: flex;
+  gap: $spacing-md;
+  z-index: 100;
+}
+
+.bottomBtn {
+  @include button-reset;
+  flex: 1;
+  height: $button-height-lg;
+  border-radius: $radius-button;
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  white-space: nowrap;
+
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+}
+
+.btnPrimary {
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  color: $color-text-white;
+}
+
+.btnSecondary {
+  background: $color-primary-bg;
+  color: $color-primary;
+}
+
+.btnDefault {
+  background: $color-bg-hover;
+  color: $color-text-secondary;
+}
+
+.btnDisabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+// ===== 患者选择弹窗 =====
+.modalMask {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 2000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.modal {
+  width: 100%;
+  max-height: 80vh;
+  background: $color-bg-card;
+  border-radius: $radius-xl $radius-xl 0 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-lg;
+  border-bottom: 1rpx solid $color-divider;
+}
+
+.modalTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.modalClose {
+  font-size: 40rpx;
+  color: $color-text-tertiary;
+  padding: $spacing-xs;
+}
+
+.modalSearch {
+  padding: $spacing-md $spacing-lg;
+  border-bottom: 1rpx solid $color-divider;
+}
+
+.modalSearchInput {
+  width: 100%;
+  height: $button-height-md;
+  padding: 0 $spacing-lg;
+  background: $color-bg-hover;
+  border-radius: $radius-button;
+  font-size: $font-size-md;
+  box-sizing: border-box;
+}
+
+.modalBody {
+  flex: 1;
+  overflow-y: auto;
+  padding: $spacing-md $spacing-lg $spacing-lg;
+  max-height: 50vh;
+}
+
+.patientOption {
+  padding: $spacing-md;
+  border-radius: $radius-md;
+  margin-bottom: $spacing-sm;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all $transition-fast;
+
+  &:active {
+    background: $color-bg-hover;
+  }
+}
+
+.patientOptionName {
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  margin-bottom: 4rpx;
+}
+
+.patientOptionMeta {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.patientOptionSelected {
+  color: $color-primary;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+}
+
+// ===== 牙位编辑弹窗 =====
+.editModalMask {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-lg;
+}
+
+.editModal {
+  width: 100%;
+  max-width: 686rpx;
+  background: $color-bg-card;
+  border-radius: $radius-xl;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.editModalHeader {
+  padding: $spacing-lg;
+  border-bottom: 1rpx solid $color-divider;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.editModalBody {
+  padding: $spacing-lg;
+}
+
+.editToothTitle {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-primary;
+  text-align: center;
+  margin-bottom: $spacing-lg;
+}
+
+.sectionDivider {
+  height: $spacing-md;
+}
+
+// ===== 空状态 =====
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 0;
+}
+
+.emptyIcon {
+  font-size: 120rpx;
+  margin-bottom: $spacing-lg;
+  opacity: 0.5;
+}
+
+.emptyText {
+  font-size: $font-size-md;
+  color: $color-text-tertiary;
+  margin-bottom: $spacing-md;
+}
+
+.emptyBtn {
+  @include button-reset;
+  padding: 0 $spacing-xl;
+  height: $button-height-md;
+  border-radius: $radius-button;
+  background: $color-primary;
+  color: $color-text-white;
+  font-size: $font-size-md;
+}
+
+// ===== 沟通卡 =====
+.communicationCard {
+  background: linear-gradient(180deg, #e6f4ff 0%, #ffffff 100%);
+  border-radius: $radius-xl;
+  padding: $spacing-xl;
+  margin: $spacing-lg 0;
+  border: 2rpx solid $color-primary;
+}
+
+.cardHeader {
+  text-align: center;
+  margin-bottom: $spacing-lg;
+  padding-bottom: $spacing-lg;
+  border-bottom: 2rpx dashed $color-border;
+}
+
+.cardHeaderTitle {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-primary;
+}
+
+.cardHeaderSub {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  margin-top: $spacing-xs;
+}
+
+.cardSection {
+  margin-bottom: $spacing-lg;
+}
+
+.cardSectionTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-sm;
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+}
+
+.cardSectionTitleIcon {
+  font-size: $font-size-lg;
+}
+
+.cardText {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  line-height: 1.8;
+}
+
+.cardList {
+  padding-left: $spacing-md;
+}
+
+.cardListItem {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  line-height: 2;
+  position: relative;
+  padding-left: $spacing-md;
+
+  &::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: $color-primary;
+  }
+}
+
+.attachSummaryItem {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-sm 0;
+}
+
+.attachSummaryTooth {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: $radius-md;
+  background: $color-primary-bg;
+  color: $color-primary;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  flex-shrink: 0;
+}
+
+.attachSummaryInfo {
+  flex: 1;
+}
+
+.attachSummaryType {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+}
+
+.attachSummaryMeta {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.cardFooter {
+  margin-top: $spacing-xl;
+  padding-top: $spacing-lg;
+  border-top: 2rpx dashed $color-border;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cardFooterText {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.cardFooterDate {
+  font-size: $font-size-sm;
+  color: $color-primary;
+  font-weight: $font-weight-semibold;
+}
