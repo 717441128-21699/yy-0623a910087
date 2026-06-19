@@ -1,0 +1,76 @@
+@use '@/styles/variables.scss' as *;
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4rpx 16rpx;
+  border-radius: $radius-round;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  white-space: nowrap;
+}
+
+.primary {
+  background: $color-primary-bg;
+  color: $color-primary;
+}
+
+.success {
+  background: $color-success-bg;
+  color: $color-success;
+}
+
+.warning {
+  background: $color-warning-bg;
+  color: $color-warning;
+}
+
+.error {
+  background: $color-error-bg;
+  color: $color-error;
+}
+
+.default {
+  background: $color-bg-hover;
+  color: $color-text-secondary;
+}
+
+.intact {
+  background: $color-success-bg;
+  color: $status-intact;
+}
+
+.worn {
+  background: $color-warning-bg;
+  color: $status-worn;
+}
+
+.fallen {
+  background: $color-error-bg;
+  color: $status-fallen;
+}
+
+.rebond {
+  background: $color-primary-bg;
+  color: $color-primary;
+}
+
+.pending {
+  background: $color-bg-hover;
+  color: $color-text-secondary;
+}
+
+.materialsChecked {
+  background: $color-warning-bg;
+  color: $color-warning;
+}
+
+.inProgress {
+  background: $color-primary-bg;
+  color: $color-primary;
+}
+
+.completed {
+  background: $color-success-bg;
+  color: $color-success;
+}
